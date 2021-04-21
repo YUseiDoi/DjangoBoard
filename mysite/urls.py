@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('base.urls')),
     path('thread/', include('thread.urls')),
     path('api/', include('api.urls')),
+    path('search/', include('search.urls')),
 ]
 
 if settings.DEBUG:
