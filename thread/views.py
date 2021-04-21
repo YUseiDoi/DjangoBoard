@@ -3,7 +3,7 @@ from django.views.generic import (
         CreateView, FormView, DetailView, TemplateView, ListView)
 from . forms import TopicCreateForm
 from . models import Topic, Category
-from . forms import TopicModelForm, TopicForm, TopicCreateForm, CommentModelForm
+from . forms import TopicModelForm, TopicForm, TopicCreateForm, CommentModelForm, Comment
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 
@@ -99,5 +99,5 @@ class TopicAndCommentView(FormView):
         ctx = super().get_context_data()
         ctx['topic'] = Topic.objects.get(id=self.kwargs['pk'])
         ctx['comment_list'] = Comment.objects.filter(
-                topic_id=self.kwargs['pk']).order_by('no')
+            topic_id=self.kwargs['pk']).order_by('no')
         return ctx

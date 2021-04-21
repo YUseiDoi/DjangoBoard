@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'base',
     'thread',
     'debug_toolbar',
+    'api',
 ]
 
 INTERNAL_IPS = [
