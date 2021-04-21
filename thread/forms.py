@@ -79,3 +79,10 @@ class CommentModelForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['user_name'].widget.attrs['value'] = '名無し'
 
+    def save_with_topic(self, topic_id, commit=True):
+        comment = self.save(commit=False)
+        comment.topic = Topic.objects.get(id=topic_id)
+        comment.no = Comment.objects.filter(topic_id=topic_id).count() + 1
+        if commit:
+            comment.save()
+        return comment
