@@ -1,5 +1,5 @@
-
 from django.db import models
+from django.core.validators import FileExtensionValidator
 
 class TopicManager(models.Manager):
     # Topic操作に関する処理を追加
@@ -70,6 +70,18 @@ class Topic(models.Model):
     def __str__(self):
         return self.title
 
+class CommentManager(models.Manager):
+    # Comment操作に関する処理を追加
+    def create_comment(self, user_name, message, topic_id, image=None):
+        comment = self.model(
+            user_name=user_name,
+            message=message,
+            image=image
+        )
+        comment.topic = Topic.objects.get(id=topic_id)
+        comment.no = self.filter(topic_id=topic_id).count() + 1
+        comment.save()
+
 class Comment(models.Model):
     id = models.BigAutoField(
         primary_key=True,
@@ -90,6 +102,13 @@ class Comment(models.Model):
     message = models.TextField(
         verbose_name='投稿内容'
     )
+    image = models.ImageField(
+        verbose_name='投稿画像',
+        validators=[FileExtensionValidator(['jpg', 'png'])],
+        upload_to='images/%Y/%m/%d/',
+        null=True,
+        blank=True,
+    )
     pub_flg = models.BooleanField(
         default=True,
     )
@@ -99,7 +118,7 @@ class Comment(models.Model):
     objects = CommentManager()
 
     def __str__(self):
-        return '{}-{}'.format(self.topic.id, self.no)
+        return '{}-{}'.format(self.topic.title, self.no)
 
 
 class VoteManager(models.Manager):

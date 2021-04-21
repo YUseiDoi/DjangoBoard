@@ -17,6 +17,18 @@ from django.contrib import admin
 from django.urls import path, include
 import base
 from django.conf import settings
+from django.contrib.sitemaps import Sitemap
+from django.contrib.sitemaps.views import sitemap
+from thread.sitemaps import TopicSitemap, CategorySitemap
+from base.sitemaps import BaseSitemap
+
+from django.conf.urls.static import static
+
+sitemaps = {
+    'topic': TopicSitemap,
+    'cateogry': CategorySitemap,
+    'base': BaseSitemap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,7 +36,9 @@ urlpatterns = [
     path('thread/', include('thread.urls')),
     path('api/', include('api.urls')),
     path('search/', include('search.urls')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},  name='sitemap'),
 ]
+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
