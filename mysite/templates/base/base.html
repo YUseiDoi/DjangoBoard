@@ -24,12 +24,13 @@
             トピック作成
         </a>
         <div class="right menu">
-            <a class="item">
-                Log in
-            </a>
-            <a class="item">
-                Sign up
-            </a>
+            {% if user.is_authenticated %}
+            <a class="item" href="{% url 'accounts:profile' %}">ユーザー情報</a>
+            <a class="item" href="{% url 'logout' %}">ログアウト</a>
+            {% else %}
+            <a class="item" href="{% url 'login' %}">ログイン</a>
+            <a class="item" href="{% url 'accounts:create' %}">ユーザー登録</a>
+            {% endif %}
         </div>
     </div>
     
