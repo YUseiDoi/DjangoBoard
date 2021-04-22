@@ -32,13 +32,14 @@ sitemaps = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('accounts.urls')),
     path('', include('base.urls')),
     path('thread/', include('thread.urls')),
     path('api/', include('api.urls')),
     path('search/', include('search.urls')),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},  name='sitemap'),
-]
-static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar

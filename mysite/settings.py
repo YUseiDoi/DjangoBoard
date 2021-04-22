@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'api',
     'search',
+    'accounts',
 ]
 
 SITE_ID = 1
